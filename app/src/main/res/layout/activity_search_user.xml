@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.ActivitySearchUser"
+    android:background="@color/black"
+    android:paddingStart="25dp"
+    android:paddingEnd="25dp"
+    android:paddingTop="25dp"
+    android:paddingBottom="25dp">
+
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Find and Ask Anonymously"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:id="@+id/textPrimarySearch"/>
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/close_white"
+        android:id="@+id/closeSearchUser"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Paste the unique user ID"
+        android:textColor="@color/pink"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textPrimarySearch"
+        android:layout_marginTop="20dp"
+        android:id="@+id/textSecondarySearch"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/search_container_secondary"
+        app:layout_constraintTop_toBottomOf="@id/textSecondarySearch"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fabSearchUser"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:backgroundTint="@color/pink"
+            android:layout_marginEnd="15dp"
+            android:hint="Unique ID"
+            android:id="@+id/getusers"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            android:inputType="textShortMessage"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fabSearchUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/search_white"/>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/recyclerviewSearchUser"
+        app:layout_constraintTop_toBottomOf="@id/search_container_secondary"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/recyclerviewSearchUser"
+        app:layout_constraintEnd_toEndOf="@id/recyclerviewSearchUser"
+        app:layout_constraintBottom_toBottomOf="@id/recyclerviewSearchUser"
+        app:layout_constraintTop_toTopOf="@id/recyclerviewSearchUser"
+        android:textColor="@color/white"
+        android:text="No users Found!"
+        android:id="@+id/errorSearch"
+        android:visibility="gone"/>
+
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/recyclerviewSearchUser"
+        app:layout_constraintEnd_toEndOf="@id/recyclerviewSearchUser"
+        app:layout_constraintTop_toTopOf="@id/recyclerviewSearchUser"
+        app:layout_constraintBottom_toBottomOf="@id/recyclerviewSearchUser"
+        android:id="@+id/progressSearch"
+        android:visibility="gone"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

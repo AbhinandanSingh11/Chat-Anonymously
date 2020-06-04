@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.MyConvoActivity"
+    android:background="@color/black"
+    android:paddingStart="25dp"
+    android:paddingEnd="25dp"
+    android:paddingBottom="10dp"
+    android:paddingTop="25dp">
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Anonymously Asked by you"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:id="@+id/labelMyConvoActivty"/>
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/close_white"
+        android:id="@+id/closeActivityMyConversation"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="These conversations are secure"
+        android:textColor="@color/pink"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelMyConvoActivty"
+        android:layout_marginTop="20dp"
+        android:id="@+id/label2MyConvoActivty"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/label2MyConvoActivty"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/RecyclerViewActivityMyConvo"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/RecyclerViewActivityMyConvo"
+        app:layout_constraintEnd_toEndOf="@id/RecyclerViewActivityMyConvo"
+        app:layout_constraintTop_toTopOf="@id/RecyclerViewActivityMyConvo"
+        app:layout_constraintBottom_toBottomOf="@id/RecyclerViewActivityMyConvo"
+        android:id="@+id/progressActivityMyConversation"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/RecyclerViewActivityMyConvo"
+        app:layout_constraintEnd_toEndOf="@id/RecyclerViewActivityMyConvo"
+        app:layout_constraintTop_toTopOf="@id/RecyclerViewActivityMyConvo"
+        app:layout_constraintBottom_toBottomOf="@id/RecyclerViewActivityMyConvo"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:id="@+id/TextChatsMyConvoActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="Message Asked by you will be displayed here."
+            android:textColor="@color/white"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

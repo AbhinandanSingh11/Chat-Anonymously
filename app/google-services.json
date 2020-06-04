@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "525344082502",
+    "firebase_url": "https://chat-anonymously-2.firebaseio.com",
+    "project_id": "chat-anonymously-2",
+    "storage_bucket": "chat-anonymously-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525344082502:android:f462f8d90c4673b8139847",
+        "android_client_info": {
+          "package_name": "com.nimus.chatanonymously"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "525344082502-2rtqmbhc72ijvskgb4hdfkmpucff6ltb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nimus.chatanonymously",
+            "certificate_hash": "7664873bb1bf5fa64a2fdc0609bc53483c46207a"
+          }
+        },
+        {
+          "client_id": "525344082502-o0212cdufigafeqfsnk6c9hgnste04sa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBboOW9d9tP0ozLt-xhUC2K58kS1JSfiLY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "525344082502-o0212cdufigafeqfsnk6c9hgnste04sa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
