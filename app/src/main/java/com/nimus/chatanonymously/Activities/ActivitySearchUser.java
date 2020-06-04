@@ -45,6 +45,7 @@ public class ActivitySearchUser extends AppCompatActivity {
     private ProgressBar progressBar;
     private UserAdapter adapter;
     private String query;
+    private String receivedUID = null;
     private ArrayList<User> users = new ArrayList<>();
 
     @Override
@@ -59,6 +60,13 @@ public class ActivitySearchUser extends AppCompatActivity {
         progressBar = findViewById(R.id.progressSearch);
         errorMessage = findViewById(R.id.errorSearch);
         close = findViewById(R.id.closeSearchUser);
+
+        receivedUID = getIntent().getStringExtra("receivedUID");
+
+        if(receivedUID != null){
+            editText.setText(receivedUID);
+            new Sync().execute(receivedUID);
+        }
 
         getDeepLinks();
 

@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.content.IntentSender;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.nimus.chatanonymously.R;
 
 import java.util.HashMap;
@@ -57,6 +60,7 @@ public class ActivityLogin extends AppCompatActivity {
     private ImageView info;
     private TextView infoText;
     private boolean isVisible = false;
+    private String receivedUserID = null;
 
     @Override
     public void onBackPressed() {
@@ -73,9 +77,11 @@ public class ActivityLogin extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
+
         mAuth = FirebaseAuth.getInstance();
 
-        
+        receivedUserID = getIntent().getStringExtra("receivedUID");
+
 
 
         oneTapClient = Identity.getSignInClient(this);
@@ -179,10 +185,20 @@ public class ActivityLogin extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
 
-                                        Intent intent = new Intent(ActivityLogin.this,MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                        finish();
+                                        if(receivedUserID == null){
+                                            Intent intent = new Intent(ActivityLogin.this,MainActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        else{
+                                            Intent intent = new Intent(ActivityLogin.this,ActivitySearchUser.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            intent.putExtra("receivedUID",receivedUserID);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+
                                     }
                                     else{
                                         Toast.makeText(ActivityLogin.this, ""+task.getException()   , Toast.LENGTH_SHORT).show();

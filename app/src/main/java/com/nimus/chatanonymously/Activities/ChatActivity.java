@@ -288,6 +288,8 @@ public class ChatActivity extends AppCompatActivity {
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
+
+
                 }
             }
 

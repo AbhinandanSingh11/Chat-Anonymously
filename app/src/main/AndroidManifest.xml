@@ -23,14 +23,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".Activities.MyConvoActivity" />
-        <activity android:name=".Activities.ConversationActivity" />
-        <activity android:name=".Activities.Browser" />
-        <activity android:name=".Activities.MyUIDActivity" />
-        <activity android:name=".Activities.ProfileActivity" />
-        <activity android:name=".Activities.ChatActivity" />
-        <activity android:name=".Activities.ActivitySearchUser">
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -44,9 +37,18 @@
                     android:host="chatanonymously.page.link"
                     android:scheme="http" />
             </intent-filter>
+
         </activity>
+        <activity android:name=".Activities.MyConvoActivity" />
+        <activity android:name=".Activities.ConversationActivity" />
+        <activity android:name=".Activities.Browser" />
+        <activity android:name=".Activities.MyUIDActivity" />
+        <activity android:name=".Activities.ProfileActivity" />
+        <activity android:name=".Activities.ChatActivity" />
+        <activity android:name=".Activities.ActivitySearchUser"/>
         <activity android:name=".Activities.ActivityLogin"/>
-        <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".Activities.MainActivity"/>
+
     </application>
 
 </manifest>

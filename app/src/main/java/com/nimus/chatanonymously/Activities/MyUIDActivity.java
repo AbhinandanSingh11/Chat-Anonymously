@@ -7,11 +7,13 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,7 @@ public class MyUIDActivity extends AppCompatActivity {
     private ImageView close;
     private FloatingActionButton copy,share;
     private TextView TextViewUID;
+    private ProgressBar progressBar;
 
     @Override
     public void onBackPressed() {
@@ -51,6 +54,7 @@ public class MyUIDActivity extends AppCompatActivity {
         copy = findViewById(R.id.fabCopyUID);
         share = findViewById(R.id.fabShareUID);
         TextViewUID = findViewById(R.id.textMyUID);
+        progressBar = findViewById(R.id.ProgressMyUidActivity);
 
 
         close.setOnClickListener(new View.OnClickListener() {
@@ -68,36 +72,7 @@ public class MyUIDActivity extends AppCompatActivity {
 
 
                 final ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("MyUID",FirebaseAuth.getInstance().getCurrentUser().getUid());
-                assert clipboardManager != null;
-                clipboardManager.setPrimaryClip(clipData);
-                Toast.makeText(MyUIDActivity.this, "copied to clipboard", Toast.LENGTH_SHORT).show();
-
-
-                String url = "https://askmeanonymously.page.link" +
-                        "link=https://www.nimus.co.in" +
-                        "&apn="+getPackageName() +
-                        "&st="+"User ID"+
-                        "&sd="+FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                        .setLongLink(Uri.parse(url))
-                        .buildShortDynamicLink()
-                        .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
-                            @Override
-                            public void onComplete(@NonNull Task<ShortDynamicLink> task) {
-                                if(task.isSuccessful()){
-                                    Uri shortLink = task.getResult().getShortLink();
-                                    Uri flowchartLink = task.getResult().getPreviewLink();
-
-                                    Log.e("Share my UID", "Generated Link: "+ shortLink.toString());
-                                }
-
-                                else{
-                                    Log.e("Share my UID", Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()));
-                                }
-                            }
-                        });
+                new Sync2().execute(clipboardManager);
 
             }
         });
@@ -105,19 +80,132 @@ public class MyUIDActivity extends AppCompatActivity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Ask me Anonymously");
-                    String shareMessage = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                    startActivity(Intent.createChooser(shareIntent, "choose one"));
-                } catch(Exception e) {
-                    Log.d("Exception", "share Exception: "+e);
-                }
+                new Sync().execute();
             }
         });
 
         TextViewUID.setText(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+    }
+
+    void generate(final ClipboardManager clipboardManager){
+        String url = "https://askmeanonymously.page.link/?" +
+                "link=https://www.nimus.co.in/user?" +FirebaseAuth.getInstance().getCurrentUser().getUid()+
+                "&apn="+getPackageName();
+        //"&st="+"User ID"+
+        //"&sd="+FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        String webURL = "https://nimus.co.in";
+        Uri uriFallBack = Uri.parse(webURL);
+
+
+        Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLongLink(Uri.parse(url))
+                .setAndroidParameters(
+                        new DynamicLink.AndroidParameters.Builder("com.nimus.chatanonymously")
+                                .setFallbackUrl(uriFallBack)
+                                .build()
+                )
+                .buildShortDynamicLink()
+                .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                        if(task.isSuccessful()){
+                            Uri shortLink = task.getResult().getShortLink();
+                            Uri flowchartLink = task.getResult().getPreviewLink();
+
+                            ClipData clipData = ClipData.newPlainText("MyUID",shortLink.toString());
+                            assert clipboardManager != null;
+                            clipboardManager.setPrimaryClip(clipData);
+                            Toast.makeText(MyUIDActivity.this, "copied to clipboard", Toast.LENGTH_SHORT).show();
+                            Log.e("Share my UID", "Generated Link: "+ shortLink.toString());
+                            progressBar.setVisibility(View.GONE);
+
+
+                        }
+
+                        else{
+                            Log.e("Share my UID", Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()));
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
+
+
+    }
+
+    void generate(){
+
+        String url = "https://askmeanonymously.page.link/?" +
+                "link=https://www.nimus.co.in/user?" +FirebaseAuth.getInstance().getCurrentUser().getUid()+
+                "&apn="+getPackageName();
+
+        String webURL = "https://nimus.co.in";
+        Uri uriFallBack = Uri.parse(webURL);
+
+        Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLongLink(Uri.parse(url))
+                .setAndroidParameters(
+                        new DynamicLink.AndroidParameters.Builder("com.nimus.chatanonymously")
+                                .setFallbackUrl(uriFallBack)
+                                .build()
+                )
+                .buildShortDynamicLink()
+                .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                        if(task.isSuccessful()){
+                            Uri shortLink = task.getResult().getShortLink();
+
+                            try {
+                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                shareIntent.setType("text/plain");
+                                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Ask me Anonymously");
+                                shareIntent.putExtra(Intent.EXTRA_TEXT, shortLink.toString());
+                                startActivity(Intent.createChooser(shareIntent, "choose one"));
+                                progressBar.setVisibility(View.GONE);
+                            } catch(Exception e) {
+                                Log.d("Exception", "share Exception: "+e);
+                                progressBar.setVisibility(View.GONE);
+                            }
+
+                        }
+
+                        else{
+                            Log.e("Share my UID", Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()));
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
+    }
+
+    class Sync extends AsyncTask<Void, Void, Void>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            progressBar.setVisibility(View.VISIBLE);
+            generate();
+            return null;
+        }
+    }
+
+    class Sync2 extends AsyncTask<ClipboardManager, Void, Void>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(ClipboardManager... clipboardManagers) {
+            generate(clipboardManagers[0]);
+            return null;
+        }
     }
 }

@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -61,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce=  false;
     private LinearLayout main, noInternet;
     private TextView myCovo, otherConvo;
+    private String receivedUserID = null;
 
     @Override
     public void onBackPressed() {
@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
+
         recyclerViewConversation = findViewById(R.id.recyclerView_recent);
         recyclerViewAsked = findViewById(R.id.recyclerview_new);
         fab = findViewById(R.id.fab_searchUser);
@@ -107,9 +108,7 @@ public class MainActivity extends AppCompatActivity {
         requestPermissions();
 
 
-
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
 
         appBarLayout.setOnClickListener(new View.OnClickListener() {
             @Override
