@@ -90,7 +90,8 @@ public class MyUIDActivity extends AppCompatActivity {
     void generate(final ClipboardManager clipboardManager){
         String url = "https://askmeanonymously.page.link/?" +
                 "link=https://www.nimus.co.in/user?" +FirebaseAuth.getInstance().getCurrentUser().getUid()+
-                "&apn="+getPackageName();
+                "&apn="+getPackageName()+
+                "&afl"+"https://nimus.co.in";
         //"&st="+"User ID"+
         //"&sd="+FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -100,11 +101,6 @@ public class MyUIDActivity extends AppCompatActivity {
 
         Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLongLink(Uri.parse(url))
-                .setAndroidParameters(
-                        new DynamicLink.AndroidParameters.Builder("com.nimus.chatanonymously")
-                                .setFallbackUrl(uriFallBack)
-                                .build()
-                )
                 .buildShortDynamicLink()
                 .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
                     @Override
@@ -138,18 +134,13 @@ public class MyUIDActivity extends AppCompatActivity {
 
         String url = "https://askmeanonymously.page.link/?" +
                 "link=https://www.nimus.co.in/user?" +FirebaseAuth.getInstance().getCurrentUser().getUid()+
-                "&apn="+getPackageName();
+                "&apn="+getPackageName()+
+                "&st="+ "Ask me Anonymously"+
+                "&sd="+ "Ask me questions or confess anything, without me knowing who you are...."+
+                "&afl="+"https://www.nimus.co.in/";
 
-        String webURL = "https://nimus.co.in";
-        Uri uriFallBack = Uri.parse(webURL);
-
-        Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLongLink(Uri.parse(url))
-                .setAndroidParameters(
-                        new DynamicLink.AndroidParameters.Builder("com.nimus.chatanonymously")
-                                .setFallbackUrl(uriFallBack)
-                                .build()
-                )
                 .buildShortDynamicLink()
                 .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
                     @Override
