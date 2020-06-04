@@ -27,42 +27,59 @@
             android:layout_height="match_parent"
             android:id="@+id/ChatPrimaryLayout">
 
-            <ImageView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:id="@+id/backChatScreen"
-                android:src="@drawable/chevron_left_white"
-                android:paddingEnd="15dp"/>
+                android:id="@+id/LCD">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="45dp"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:id="@+id/imageChatWith"
-                app:layout_constraintStart_toEndOf="@id/backChatScreen"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/backChatScreen"
+                    android:src="@drawable/chevron_left_white" />
 
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/imageChatWith"
-                app:layout_constraintEnd_toEndOf="@id/imageChatWith"
-                app:layout_constraintTop_toTopOf="@id/imageChatWith"
-                app:layout_constraintBottom_toBottomOf="@id/imageChatWith"
-                android:id="@+id/progressChatImage"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="45dp"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/imageChatWith"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:layout_marginStart="5dp"/>
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="@id/imageChatWith"
+                        app:layout_constraintEnd_toEndOf="@id/imageChatWith"
+                        app:layout_constraintTop_toTopOf="@id/imageChatWith"
+                        app:layout_constraintBottom_toBottomOf="@id/imageChatWith"
+                        android:id="@+id/progressChatImage"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+
+
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imageChatWith"
+                app:layout_constraintStart_toEndOf="@id/LCD"
                 android:orientation="vertical"
                 android:gravity="center_vertical"
                 android:layout_marginStart="10dp">

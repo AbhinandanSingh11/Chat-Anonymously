@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -51,7 +52,7 @@ public class ChatActivity extends AppCompatActivity {
     private AppCompatTextView name;
     private CircleImageView image;
     private EditText editText;
-    private ImageView send, back;
+    private ImageView send;
     private String message;
     private FirebaseUser currentUser;
     private DatabaseReference reference,references;
@@ -62,6 +63,7 @@ public class ChatActivity extends AppCompatActivity {
     private ValueEventListener seenListener;
     private ProgressBar progressBar,progressBarImage;
     private ImageView emoji;
+    private LinearLayout back;
 
     @Override
     public void onBackPressed() {
@@ -79,7 +81,7 @@ public class ChatActivity extends AppCompatActivity {
 
         name = findViewById(R.id.nameChatWith);
         image = findViewById(R.id.imageChatWith);
-        back = findViewById(R.id.backChatScreen);
+        back = findViewById(R.id.LCD);
         send = findViewById(R.id.fabSendMessage);
         editText = findViewById(R.id.EditTextChat);
         recyclerView = findViewById(R.id.recyclerViewChatScreen);
