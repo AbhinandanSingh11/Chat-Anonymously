@@ -91,15 +91,10 @@ public class MyUIDActivity extends AppCompatActivity {
         String url = "https://askmeanonymously.page.link/?" +
                 "link=https://www.nimus.co.in/user?" +FirebaseAuth.getInstance().getCurrentUser().getUid()+
                 "&apn="+getPackageName()+
-                "&afl"+"https://nimus.co.in";
-        //"&st="+"User ID"+
-        //"&sd="+FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        String webURL = "https://nimus.co.in";
-        Uri uriFallBack = Uri.parse(webURL);
+                "&afl="+"https://www.nimus.co.in/download-ama";
 
 
-        Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLongLink(Uri.parse(url))
                 .buildShortDynamicLink()
                 .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
@@ -137,7 +132,8 @@ public class MyUIDActivity extends AppCompatActivity {
                 "&apn="+getPackageName()+
                 "&st="+ "Ask me Anonymously"+
                 "&sd="+ "Ask me questions or confess anything, without me knowing who you are...."+
-                "&afl="+"https://www.nimus.co.in/";
+                "&afl="+"https://www.nimus.co.in/download-ama"+
+                "&si="+"https://www.api.nimus.co.in/images/pet.png";
 
         FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLongLink(Uri.parse(url))
@@ -180,7 +176,6 @@ public class MyUIDActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            progressBar.setVisibility(View.VISIBLE);
             generate();
             return null;
         }

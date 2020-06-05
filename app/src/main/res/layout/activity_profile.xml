@@ -216,13 +216,33 @@
                 android:gravity="center_vertical"
                 android:id="@+id/layoutShare"
                 app:layout_constraintTop_toBottomOf="@id/layoutUpdate">
-
-                <ImageView
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/bg_purple"
-                    android:src="@drawable/share_white"
-                    android:scaleType="centerInside"/>
+                    android:layout_height="40dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_purple"
+                        android:src="@drawable/share_white"
+                        android:scaleType="centerInside"
+                        android:id="@+id/imageShare"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/progressShareApp"
+                        app:layout_constraintTop_toTopOf="@id/imageShare"
+                        app:layout_constraintBottom_toBottomOf="@id/imageShare"
+                        app:layout_constraintStart_toStartOf="@id/imageShare"
+                        app:layout_constraintEnd_toEndOf="@id/imageShare"
+                        android:visibility="gone"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -258,6 +278,8 @@
                     android:background="@drawable/bg_pink"
                     android:src="@drawable/privacy_white"
                     android:scaleType="centerInside"/>
+
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -201,7 +201,7 @@ public class ActivityLogin extends AppCompatActivity {
 
                                     }
                                     else{
-                                        Toast.makeText(ActivityLogin.this, ""+task.getException()   , Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(ActivityLogin.this, ""+task.getException()   , Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -210,7 +210,7 @@ public class ActivityLogin extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(ActivityLogin.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(ActivityLogin.this, "failed", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ActivityLogin.this, "failed", Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                             logo.setImageDrawable(getResources().getDrawable(R.drawable.pet,getTheme()));
                         }
@@ -255,7 +255,7 @@ public class ActivityLogin extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         //No saved credentials found. Launch the One Tap sign-up flow, or
                         // do nothing and continue presenting the signed-out UI.
-                        Toast.makeText(ActivityLogin.this, "Yes: "+e, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ActivityLogin.this, "Yes: "+e, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

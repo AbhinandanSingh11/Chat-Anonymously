@@ -8,16 +8,15 @@
     tools:context=".Activities.Browser"
     android:background="@color/black">
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
+    <ProgressBar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/close_white"
-        android:id="@+id/closeBrowser"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/progressBrowser"
+        app:layout_constraintBottom_toTopOf="@id/browser"
+        style="?android:attr/progressBarStyleHorizontal"/>
 
     <WebView
         android:layout_width="match_parent"
@@ -25,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBrowser"
         android:id="@+id/browser"/>
 
 

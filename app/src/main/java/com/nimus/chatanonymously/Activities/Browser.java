@@ -10,6 +10,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,7 +20,7 @@ public class Browser extends AppCompatActivity {
     private WebView browser;
     private String URL;
     private WebSettings webSettings;
-    private FloatingActionButton closeBrowser;
+    private ProgressBar progressBar;
 
     @Override
     public void onBackPressed() {
@@ -36,24 +37,35 @@ public class Browser extends AppCompatActivity {
         Toast.makeText(this, "Loading...", Toast.LENGTH_SHORT).show();
 
         browser = findViewById(R.id.browser);
-        closeBrowser = findViewById(R.id.closeBrowser);
-
-        closeBrowser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Browser.this,ProfileActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        progressBar = findViewById(R.id.progressBrowser);
 
 
         URL = getIntent().getStringExtra("URL");
 
-        browser.setWebChromeClient(new WebChromeClient());
+        browser.setWebChromeClient(new myWebChromeClient());
         browser.setWebViewClient(new WebViewClient());
         webSettings = browser.getSettings();
         webSettings.setJavaScriptEnabled(true);
         browser.loadUrl(URL);
+    }
+
+    public class myWebChromeClient extends WebChromeClient {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            setValue(newProgress);
+            super.onProgressChanged(view, newProgress);
+        }
+
+        public void setValue(int progress){
+
+            if(progress == 100){
+                progressBar.setVisibility(View.GONE);
+            }
+            else{
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            progressBar.setProgress(progress);
+        }
     }
 }

@@ -89,6 +89,10 @@ public class ActivitySearchUser extends AppCompatActivity {
                     new Sync().execute(query);
                 }
 
+                if(query.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                    Toast.makeText(ActivitySearchUser.this, "Smart, looking for yourself", Toast.LENGTH_SHORT).show();
+                }
+
                 else{
                     Toast.makeText(ActivitySearchUser.this, "Invalid User ID", Toast.LENGTH_SHORT).show();
                 }
@@ -135,7 +139,7 @@ public class ActivitySearchUser extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(ActivitySearchUser.this, "Error: " + databaseError, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ActivitySearchUser.this, "Error: " + databaseError, Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });

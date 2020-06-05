@@ -4,18 +4,26 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.nimus.chatanonymously.R;
+
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -24,8 +32,9 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView back;
     private TextView name,email;
     private FirebaseUser mUser;
-    private LinearLayout logout,myUID,share,privacy;
-    private FirebaseAuth.AuthStateListener authStateListener;
+    private LinearLayout logout,myUID,share,privacy,update,feedback;
+    private ImageView shareImage;
+    private ProgressBar progressBarShareImage;
 
     @Override
     public void onBackPressed() {
@@ -50,6 +59,10 @@ public class ProfileActivity extends AppCompatActivity {
         myUID = findViewById(R.id.layoutUID);
         share = findViewById(R.id.layoutShare);
         privacy = findViewById(R.id.layoutPrivacy);
+        shareImage = findViewById(R.id.imageShare);
+        progressBarShareImage = findViewById(R.id.progressShareApp);
+        update = findViewById(R.id.layoutUpdate);
+        feedback = findViewById(R.id.layoutFeedback);
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -73,17 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Ask me Anonymously");
-                    String shareMessage= "\nDownload this app to chat with anyone or confess to anyone without revealing who you are\n\n";
-                    shareMessage = shareMessage + "https://wwww.google.com";
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                    startActivity(Intent.createChooser(shareIntent, "choose one"));
-                } catch(Exception e) {
-                    Log.d("Exception", "share Exception: "+e);
-                }
+                generate();
             }
         });
 
@@ -110,11 +113,75 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this, Browser.class);
-                intent.putExtra("code",0);
                 intent.putExtra("URL","https://www.nimus.co.in/privacy-policy-ama");
                 startActivity(intent);
             }
         });
-    }
 
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, Browser.class);
+                intent.putExtra("URL","https://www.nimus.co.in/download-ama");
+                startActivity(intent);
+            }
+        });
+
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, Browser.class);
+                intent.putExtra("URL","https://www.nimus.co.in/feedback-ama");
+                startActivity(intent);
+            }
+        });
+
+
+    }
+    void generate(){
+
+        shareImage.setVisibility(View.GONE);
+        progressBarShareImage.setVisibility(View.VISIBLE);
+
+        String url = "https://askmeanonymously.page.link/?" +
+                "link=https://www.nimus.co.in/share?" +
+                "&apn="+getPackageName() +
+                "&st="+ "Ask me Anonymously" +
+                "&sd="+ "Chat with friends or confess anything, without them knowing who are you." +
+                "&afl="+"https://www.nimus.co.in/download-ana"+
+                "&si="+"https://www.api.nimus.co.in/images/pet.png";
+
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLongLink(Uri.parse(url))
+                .buildShortDynamicLink()
+                .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                        if(task.isSuccessful()){
+                            Uri shortLink = task.getResult().getShortLink();
+
+                            try {
+                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                shareIntent.setType("text/plain");
+                                //shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Ask me Anonymously");
+                                shareIntent.putExtra(Intent.EXTRA_TEXT, shortLink.toString());
+                                startActivity(Intent.createChooser(shareIntent, "choose one"));
+                                shareImage.setVisibility(View.VISIBLE);
+                                progressBarShareImage.setVisibility(View.GONE);
+
+                            } catch(Exception e) {
+                                Log.d("Exception", "share Exception: "+e);
+                                shareImage.setVisibility(View.VISIBLE);
+                                progressBarShareImage.setVisibility(View.GONE);
+                            }
+
+                        }
+
+                        else{
+                            Log.e("Share my UID", Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()));
+                        }
+                    }
+                });
+
+    }
 }

@@ -138,7 +138,8 @@
         app:layout_constraintEnd_toEndOf="@id/recyclerViewChatScreen"
         app:layout_constraintTop_toTopOf="@id/recyclerViewChatScreen"
         app:layout_constraintBottom_toBottomOf="@id/recyclerViewChatScreen"
-        android:id="@+id/progressChatScreen"/>
+        android:id="@+id/progressChatScreen"
+        android:visibility="gone"/>
 
 
     <ImageView

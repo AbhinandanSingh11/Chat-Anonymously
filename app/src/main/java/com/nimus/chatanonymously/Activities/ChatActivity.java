@@ -59,11 +59,12 @@ public class ChatActivity extends AppCompatActivity {
     private ChatAdapter adapter;
     private ArrayList<Chat> chats;
     private RecyclerView recyclerView;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences,firstSharedPrefrences;
     private ValueEventListener seenListener;
     private ProgressBar progressBar,progressBarImage;
     private ImageView emoji;
     private LinearLayout back;
+    private boolean isAlreadyFirst = false;
 
     @Override
     public void onBackPressed() {
@@ -72,6 +73,7 @@ public class ChatActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +92,10 @@ public class ChatActivity extends AppCompatActivity {
         emoji = findViewById(R.id.emoji);
 
         sharedPreferences = getPreferences(MODE_PRIVATE);
+
+
+        firstSharedPrefrences = getPreferences(MODE_PRIVATE);
+
 
         final String id = getIntent().getStringExtra("id");
         final String firstBy = getIntent().getStringExtra("firstBy");
@@ -219,13 +225,31 @@ public class ChatActivity extends AppCompatActivity {
                 hashMap.put("isSeen",false);
                 hashMap.put("userReceiver",gson.fromJson(json,User.class));
                 hashMap.put("userSender",new User(FirebaseAuth.getInstance().getCurrentUser().getUid(),FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),FirebaseAuth.getInstance().getCurrentUser().getEmail(),FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString()));
+
                 if(firstBy.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                    hashMap.put("firstBy",currentUser.getUid());
+                    hashMap.put("firstBy", currentUser.getUid());
                 }
                 if(firstBy.equals("response")){
                     hashMap.put("firstBy",receiver);
                 }
-                hashMap.put("options",options);
+
+
+                isAlreadyFirst = firstSharedPrefrences.getBoolean("isAlreadyFirst",false);
+
+                if(!isAlreadyFirst && options.equals("first")){
+                    hashMap.put("options","first");
+                    SharedPreferences.Editor firstEditor = firstSharedPrefrences.edit();
+                    firstEditor.putBoolean("isAlreadyFirst",true);
+                    firstEditor.commit();
+                }
+                else if(isAlreadyFirst && options.equals("first")){
+                    hashMap.put("options","repeat");
+                }
+                else{
+                    hashMap.put("options",options);
+                }
+
+                //hashMap.put("options",options);
                 Reference.push().setValue(hashMap);
 
             }
@@ -310,5 +334,12 @@ public class ChatActivity extends AppCompatActivity {
 
     public String getEmojiByUnicode(int unicode){
         return new String(Character.toChars(unicode));
+    }
+
+    @SuppressLint("ApplySharedPref")
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        firstSharedPrefrences.edit().remove("isAlreadyFirst").commit();
     }
 }
