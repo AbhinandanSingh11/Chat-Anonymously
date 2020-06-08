@@ -36,6 +36,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.crashlytics.internal.common.CrashlyticsCore;
+import com.google.firebase.crashlytics.internal.model.CrashlyticsReport;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
@@ -51,15 +53,13 @@ public class ActivityLogin extends AppCompatActivity {
     private CardView login;
     private SignInClient oneTapClient;
     private BeginSignInRequest signInRequest;
-    private final String TAG = "Activity login TAG";
+    private final String TAG = "Login Activity TAG";
     private static final int REQ_ONE_TAP = 1;
     private ProgressBar progressBar;
     private CircleImageView logo;
     private FirebaseAuth mAuth;
     private DatabaseReference reference;
-    private ImageView info;
-    private TextView infoText;
-    private boolean isVisible = false;
+    private boolean isbtnVisible = true;
     private String receivedUserID = null;
 
     @Override
@@ -77,13 +77,6 @@ public class ActivityLogin extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-
-        mAuth = FirebaseAuth.getInstance();
-
-        receivedUserID = getIntent().getStringExtra("receivedUID");
-
-
-
         oneTapClient = Identity.getSignInClient(this);
         signInRequest = BeginSignInRequest.builder()
                 .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
@@ -96,26 +89,15 @@ public class ActivityLogin extends AppCompatActivity {
                         .build())
                 .build();
 
+
+        mAuth = FirebaseAuth.getInstance();
+
+        receivedUserID = getIntent().getStringExtra("receivedUID");
+
+
         login = findViewById(R.id.signInBtn);
         progressBar = findViewById(R.id.progress_login);
         logo = findViewById(R.id.logo_login);
-        info = findViewById(R.id.infoLogin);
-        infoText = findViewById(R.id.LogininfoText);
-
-
-        info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isVisible){
-                    infoText.setVisibility(View.VISIBLE);
-                    isVisible = true;
-                }
-                else if(isVisible){
-                    infoText.setVisibility(View.GONE);
-                    isVisible = false;
-                }
-            }
-        });
 
 
 
@@ -124,6 +106,10 @@ public class ActivityLogin extends AppCompatActivity {
             public void onClick(View v) {
                 LaunchOneTap();
                 Toast.makeText(ActivityLogin.this, "Loading...", Toast.LENGTH_SHORT).show();
+                if(isbtnVisible){
+                    login.setVisibility(View.GONE);
+                    isbtnVisible = false;
+                }
             }
         });
 
@@ -141,18 +127,17 @@ public class ActivityLogin extends AppCompatActivity {
                 if (idToken != null) {
                     // Got an ID token from Google. Use it to authenticate
                     // with your backend.
-                    Log.d("amnajkhdkjahdkahdka", "Got ID token.");
                     firebaseAuthWithGoogle(idToken);
                 } else if (password != null) {
                     // Got a saved username and password. Use them to authenticate
                     // with your backend.
-                    Log.d("amnajkhdkjahdkahdka", "Got password.");
                 }
                 else{
-                    Log.d("amnajkhdkjahdkahdka", "Got Nothing");
+
                 }
             } catch (ApiException e) {
                 // ...
+                isbtnVisible = true;
             }
         }
     }
@@ -202,6 +187,7 @@ public class ActivityLogin extends AppCompatActivity {
                                     }
                                     else{
                                         //Toast.makeText(ActivityLogin.this, ""+task.getException()   , Toast.LENGTH_SHORT).show();
+                                        isbtnVisible = true;
                                     }
                                 }
                             });
@@ -213,6 +199,7 @@ public class ActivityLogin extends AppCompatActivity {
                             //Toast.makeText(ActivityLogin.this, "failed", Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                             logo.setImageDrawable(getResources().getDrawable(R.drawable.pet,getTheme()));
+                            isbtnVisible = true;
                         }
 
                     }
@@ -247,6 +234,8 @@ public class ActivityLogin extends AppCompatActivity {
                                     null, 0, 0, 0);
                         } catch (IntentSender.SendIntentException e) {
                             Log.e(TAG, "Couldn't start One Tap UI: " + e.getLocalizedMessage());
+                            Toast.makeText(ActivityLogin.this, "Error code AL-LOT-C "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                            isbtnVisible = true;
                         }
                     }
                 })
@@ -255,7 +244,8 @@ public class ActivityLogin extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         //No saved credentials found. Launch the One Tap sign-up flow, or
                         // do nothing and continue presenting the signed-out UI.
-                        //Toast.makeText(ActivityLogin.this, "Yes: "+e, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityLogin.this, "Error code AL-LOT-FL "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                        isbtnVisible = true;
                     }
                 });
     }

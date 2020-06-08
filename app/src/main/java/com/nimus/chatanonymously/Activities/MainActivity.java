@@ -40,6 +40,7 @@ import com.nimus.chatanonymously.Model.Chat;
 import com.nimus.chatanonymously.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -60,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce=  false;
     private LinearLayout main, noInternet;
     private TextView myCovo, otherConvo;
-    private String receivedUserID = null;
 
     @Override
     public void onBackPressed() {

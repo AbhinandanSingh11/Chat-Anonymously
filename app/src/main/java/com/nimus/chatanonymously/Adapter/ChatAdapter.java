@@ -62,6 +62,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         if(imageURL.equals("response")){
             Glide.with(context)
                     .load(R.drawable.pet)
+                    .placeholder(R.drawable.pet)
                     .into(holder.profile_image);
         }
         else{

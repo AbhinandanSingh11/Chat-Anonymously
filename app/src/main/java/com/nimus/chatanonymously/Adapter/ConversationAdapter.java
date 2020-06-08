@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -77,7 +78,13 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         });
 
 
+        if(chats.get(position).isSeen()){
+            Log.d("isSeen","For position: "+position +" value: "+ "True");
+        }
 
+        else {
+            Log.d("isSeen","For position: "+position +" value: "+ "False");
+        }
 
 
         //holder.message.setText(chats.get(position).getMessage());
@@ -85,6 +92,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
         Glide.with(context)
                 .load(R.drawable.pet)
+                .placeholder(R.drawable.pet)
                 .into(holder.image);
 
         holder.container.setOnClickListener(new View.OnClickListener() {

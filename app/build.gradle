@@ -13,9 +13,10 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
@@ -58,6 +59,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.2.0'
     implementation 'com.google.firebase:firebase-inappmessaging-display:19.0.7'
     implementation 'com.google.firebase:firebase-perf:19.0.7'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
 
     // Google Gson
     implementation 'com.google.code.gson:gson:2.8.5'
@@ -67,6 +69,10 @@ dependencies {
 
     // Emoji
     implementation 'hani.momanii.supernova_emoji_library:supernova-emoji-library:0.0.2'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
 
 

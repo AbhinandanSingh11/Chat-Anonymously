@@ -81,6 +81,7 @@ public class AskedByAdapter extends RecyclerView.Adapter<AskedByAdapter.ViewHold
 
         Glide.with(context)
                 .load(chats.get(position).getUserReceiver().getImage())
+                .placeholder(R.drawable.pet)
                 .into(holder.image);
         //holder.message.setText(chats.get(position).getMessage());
 
