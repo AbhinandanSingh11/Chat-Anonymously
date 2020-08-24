@@ -18,6 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,12 +43,16 @@ import com.nimus.chatanonymously.Model.LastMessage;
 import com.nimus.chatanonymously.Model.User;
 import com.nimus.chatanonymously.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -64,7 +75,10 @@ public class ChatActivity extends AppCompatActivity {
     private ProgressBar progressBar,progressBarImage;
     private ImageView emoji;
     private LinearLayout back;
+    private JsonObjectRequest request;
+    private RequestQueue queue;
     private boolean isAlreadyFirst = false;
+    private final String URL = "https://fcm.googleapis.com/fcm/send";
 
     @Override
     public void onBackPressed() {
@@ -95,6 +109,8 @@ public class ChatActivity extends AppCompatActivity {
 
 
         firstSharedPrefrences = getPreferences(MODE_PRIVATE);
+
+        queue = Volley.newRequestQueue(ChatActivity.this);
 
 
         final String id = getIntent().getStringExtra("id");
@@ -259,6 +275,7 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
 
@@ -282,6 +299,12 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    // This was added aafter commiting version 1.0.3
+
+    void addPendingMessages(){
+
     }
 
     void addLastMessage(String sender, String receiver, String message){
